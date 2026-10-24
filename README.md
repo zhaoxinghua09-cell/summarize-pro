@@ -17,14 +17,21 @@
 
 SynomosAI 四支柱体系：**身份（Identity）· 溯源（Traceability）· 治理（Governance）· 共生（Symbiosis）**——当 AI 进入商业，可信是唯一的硬通货。
 
+## 评测背书（Independent Evaluation）
+
+- **LGD-Eval 独立评测 PASS**（报告编号 LGD-EVAL-2026-001，TRACE 综合 **4.75/5.0**）：https://github.com/LGD-Eval/evaluation-reports/blob/main/summarize-pro_权威评测_20261024.md
+- **评测徽章**：![LGD VERIFIED](https://github.com/LGD-Eval/evaluation-evidence/blob/main/summarize-pro_20261024/lgd-verified.svg)
+- **安全**：腾讯科恩实验室 + 云鼎实验室双扫描「安全，无风险」（benign，2026-10-17）
+
 ## 仓库内容
 
 本仓库为 `summarize-pro` 技能的发布包：核心文件 `SKILL.md` 遵循 Agent Skills 规范（YAML frontmatter），可直接放入主流 AI Agent 的技能目录使用。
 
-- **分类**：文档处理
-- **版本**：1.0.0
+- **分类**：knowledge-management（摘要总结）
+- **版本**：1.0.2
 - **署名**：诺声(Logos)@SynomosAI
 - **许可**：MIT（详见仓库 LICENSE）
+- **AI 可读文件**：`AGENTS.md`（代理调用入口）、`llms.txt`（AI 索引）、`manifest.json`（元数据）
 
 ## 使用方式
 
