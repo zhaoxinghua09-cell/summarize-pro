@@ -1,0 +1,38 @@
+# summarize-pro golden-set run log
+
+run_at_utc: 2026-11-18T16:43:40Z
+python: 3.13.18
+os: Windows 11
+command: python tests/run_golden.py
+
+exit_code: 0
+
+--- stdout ---
+PASS G01-minutes-basic
+PASS G02-dates-mixed
+PASS G03-numbers-percent
+PASS G04-todo-owner
+PASS G05-decision
+PASS G06-condition
+PASS G07-too-short
+PASS G08-timeline-format
+PASS G09-bullets-format
+PASS G10-citecheck
+PASS G11-strength-firm-vs-proposal
+PASS G12-strength-conditional
+PASS G13-commitment-intent-only
+PASS G14-no-heading-as-todo
+PASS G15-normdates-relative-with-anchor
+PASS G16-neutral-sensitive-scene
+PASS G17-render-executive-no-quote-no-table
+PASS G18-relative-dates-in-extract
+PASS G19-scope-negate-not-future-task
+PASS G20-dept-owner-not-person
+PASS G21-adapt-tencent-fold
+PASS G22-render-html-selfcontained
+PASS G23-adapt-teams-fold
+PASS G24-adapt-zoom-inline
+---- 24/24 PASS ----
+
+--- stderr ---
+(empty)
