@@ -7,6 +7,9 @@
 自测结果：篡改召回 **10/10（100%）**，未篡改不误报。复现：`python demo/tamper_test.py`（退出码 0 即通过）。
 <!-- /LGD-DIFF -->
 
+
+**想知道自己的技能多少分？/ Get your own skill scored:** [一键提交评测 / submit for review](https://github.com/zhaoxinghua09-cell/lgd-skill-review/issues/new?template=review-request.yml) — 静态分析、不执行你的代码。
+
 **skills.sh 页面**: https://skills.sh/zhaoxinghua09-cell/summarize-pro ｜ `npx skills add zhaoxinghua09-cell/summarize-pro`
 
 
