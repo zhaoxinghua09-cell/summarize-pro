@@ -4,19 +4,29 @@
 
 Turns a transcript, recording or long document into minutes, a comparison table, a timeline, bullets or cards — choosing the format by reader intent, then compressing under a no-hallucination discipline.
 
-## 已上架 / Published on LobeHub
+## 一步安装 / Install in one line
+
+```bash
+# LobeHub 市场 / LobeHub marketplace
+npx -y @lobehub/market-cli skills install zhaoxinghua09-cell-summarize-pro --agent codex
+
+# 直接从 GitHub 源安装 / install from source
+npx -y skills add zhaoxinghua09-cell/summarize-pro --skill summarize-pro --agent codex
+```
 
 [![verify](https://github.com/zhaoxinghua09-cell/summarize-pro/actions/workflows/verify.yml/badge.svg)](https://github.com/zhaoxinghua09-cell/summarize-pro/actions/workflows/verify.yml)
 
-- 市场页 / Marketplace: https://lobehub.com/skills/zhaoxinghua09-cell-summarize-pro
-- 安装标识符 / Identifier: `zhaoxinghua09-cell-summarize-pro`
-- 安装 / Install:
+- 市场页 / Marketplace page: https://lobehub.com/skills/zhaoxinghua09-cell-summarize-pro
+- 标识符 / Identifier: `zhaoxinghua09-cell-summarize-pro`
+- 自检 / Verify: `python tests/run_golden.py`（零依赖、离线，退出码即结论）
+- 审计报告 / Audit: [`AUDIT-REPORT.md`](AUDIT-REPORT.md)（命令生成，重跑可推翻）
 
-```bash
-npx -y @lobehub/market-cli skills install zhaoxinghua09-cell-summarize-pro --agent codex
-```
+### 同族技能 / Same family
 
-- 审计报告 / Audit report: [`AUDIT-REPORT.md`](AUDIT-REPORT.md)（自跑，未经第三方；重跑可推翻）
+- [`debug-pro`](https://github.com/zhaoxinghua09-cell/debug-pro)
+- [`wechat-viral-topic`](https://github.com/zhaoxinghua09-cell/wechat-viral-topic)
+- [`lgd-skill-review`](https://github.com/zhaoxinghua09-cell/lgd-skill-review)
+- [`lgd-hit-list`](https://github.com/zhaoxinghua09-cell/lgd-hit-list) — 爆款清单登记 / hit-list registry
 
 ## 快速开始 / Quick start
 
