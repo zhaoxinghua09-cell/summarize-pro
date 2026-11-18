@@ -331,6 +331,26 @@
      "<link rel=\"stylesheet\""
     ]
    }
+  },
+  {
+   "id": "G23-adapt-teams-fold",
+   "kind": "adapt",
+   "path": "x.md",
+   "input": "周敏   00:01:12\n这个上线节点不能动，先按月底走。\n李强   00:03:20\n我周内给出初稿，周三前发你复核。\n",
+   "expect": {
+    "source": "teams",
+    "speaker_lines_min": 2
+   }
+  },
+  {
+   "id": "G24-adapt-zoom-inline",
+   "kind": "adapt",
+   "path": "x.txt",
+   "input": "00:00:12 陈涛: 先把范围定下来，本期只做核心链路。\n00:01:30 周敏: 草稿我负责出，周四前给到。\n",
+   "expect": {
+    "source": "zoom",
+    "speaker_lines_min": 2
+   }
   }
  ]
 }

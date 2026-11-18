@@ -22,6 +22,7 @@
   （任意子命令加 --json 输出机读结果，字段固定 ok/error_id/data）
 """
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -44,12 +45,13 @@ DATE_PATTERNS = [
     r"下个?月\s*\d{1,2}\s*[日号]",
 ]
 NUM_PATTERN = r"(?<![\w-])\d+(?:\.\d+)?(?:%|％|万|亿|元|美元|人|天|小时|分钟|个|份|页|条|台|次|版)?"
-NEGOTIABLE = re.compile(r"要|需|必须|应当|负责|跟进|截止|前完成|待办|下一步|行动项|TODO"
+NEGOTIABLE = re.compile(r"要|需|必须|应当|负责(?![人])|跟进|截止|前完成|待办|下一步|行动项|TODO"
                         r"|出初稿|由我|我来|我来发|我发|我写|我出|我看看|回头说|再说"
                         r"|跟.{0,8}对接|对接|谁去|下次会|挂到"
                         r"|跟一下|跟进一下|盯一下|排一下|安排一下|确认一下|看一下")
 DECISION = re.compile(r"决定|确定|定了|结论|批准|同意|一致认为|拍板|裁定"
-                      r"|改为|改到|写死|定为|释放|退回|不做|只做|先行|定\s*\d"
+                      r"|明确|决议|共识|定为|暂不|不投产"
+                      r"|改为|改到|写死|释放|退回|不做|只做|先行|定\s*\d"
                       r"|建议|提议|暂定|暂时|先按|初步|可以考虑")
 CONDITION = re.compile(r"如果|若|一旦|在.{0,12}条件下|以.{0,12}为前提|前提是|除非")
 SPEAKER = re.compile(r"^\s*([\u4e00-\u9fa5A-Za-z][\u4e00-\u9fa5A-Za-z0-9·\.\-_]{1,11})\s*[:：]\s*")
@@ -60,8 +62,16 @@ NO_NAME = {"结论", "决定", "备注", "议题", "待办", "注意", "说明",
            "主题", "事项", "会议", "内容", "目的", "范围", "版本", "日期", "负责人"}
 
 
+LABEL_TAIL = re.compile(r"(决议|明确|决定|结论|要求|强调|共识|口径|安排|部署|意见|建议|通知|提醒|要点)$")
+REPORTING = re.compile(r"汇报|通报|回顾|复盘|未出现|没有.{0,8}(阻塞|问题|风险)|已同步")
+
 def is_name(word):
-    return bool(word) and word not in NO_NAME
+    if not word or word in NO_NAME:
+        return False
+    # 「会议明确：」「会议决议：」这类是段落标签，不是说话人；当成说话人会把后面的真结论吞掉
+    if LABEL_TAIL.search(word):
+        return False
+    return True
 OWNER_HINT = re.compile(r"([\u4e00-\u9fa5]{2,3}|[A-Z][a-z]{2,15})\s*(负责|跟进|来|牵头|owner)", re.I)
 
 
@@ -170,8 +180,9 @@ def extract_facts(text):
         if is_cond and not is_dec:
             # 条件句只归入「条件」区，不列成待办：把「如果超过 2% 就要回滚」列成任务会误导执行
             pass
-        elif NEGOTIABLE.search(s) and not is_dec:
-            # 已定结论不再重复列入待办表，避免同一句既当结论又当任务
+        elif NEGOTIABLE.search(s) and not is_dec and not REPORTING.search(s):
+            # 已定结论不再重复列入待办表，避免同一句既当结论又当任务；
+            # 「汇报进展/未出现阻塞」是状态陈述，不是待办（否则会造出假任务）
             todos.append(s)
         if is_dec:
             decisions.append(s)
@@ -818,6 +829,14 @@ SRC_HINTS = [
      [r"WorkBuddy", r"##\s*会议纪要", r"##\s*决议"],
      "WorkBuddy：已是纪要结构，直接用 citecheck 核对，不要再次 extract（会重复压缩）。",
      "python scripts/summarize_pro.py citecheck --file <本文件> --source <原始转写>"),
+    ("teams",
+     [r"Microsoft Teams", r"(?m)^\S{2,10}\s{2,}\d{1,2}:\d{2}(?::\d{2})?\s*$"],
+     "Microsoft Teams：说话人与其后时间戳独占一行，先把两行并成「人：话」再抽。",
+     "python scripts/summarize_pro.py extract --file <本文件> --format minutes"),
+    ("zoom",
+     [r"(?m)^\d{2}:\d{2}:\d{2}\s+\S{1,10}\s*[:：]", r"Zoom"],
+     "Zoom：hh:mm:ss 在行首，是时间锚点；说话人紧随其后，保留不删。",
+     "python scripts/summarize_pro.py extract --file <本文件> --format minutes"),
     ("docx",
      [r"^[\s\S]*$"],
      "Word 文档：段落已抽取；表格内容不在段落里，若有表格请另存为 md。",
@@ -834,6 +853,12 @@ def normalize_source(text, source):
         text = re.sub(r"(?m)^\s*\[[\d:]+\]\s*", "", text)
     elif source == "kimi_work":
         text = re.sub(r"(?m)^\s*\*\*(.+?)\*\*\s*$", r"\1：", text)
+    elif source == "teams":
+        # 「张三    00:01:12」独占一行 → 折成「张三：」，再靠下面的通行合并与内容接上
+        text = re.sub(r"(?m)^\s*(\S{2,10})\s{2,}\d{1,2}:\d{2}(?::\d{2})?\s*$", r"\1：", text)
+    elif source == "zoom":
+        # 「00:00:05 张三: 正文」→ 去掉时间戳，保留说话人与正文
+        text = re.sub(r"(?m)^\s*\d{2}:\d{2}:\d{2}\s+(\S{1,10})\s*[:：]\s*", r"\1：", text)
     # 统一把「人：」独占的行与下一行合并成一句（否则主语与内容分家，待办判不出来）
     text = re.sub(r"(?m)^([^\s#\-*>|][^:：\n]{0,11}[：:])\s*\n(?=\S)", r"\1", text)
     return text
@@ -931,6 +956,8 @@ def main():
     e.add_argument("--format", default="minutes", choices=FORMATS)
     e.add_argument("--out", default=".")
     e.add_argument("--json", action="store_true")
+    e.add_argument("--receipt", action="store_true",
+                   help="为本次产物写出 receipt.json（输入/输出 SHA-256，可用 receipt.py verify 复核）")
 
     c = sub.add_parser("citecheck", help="输出逐句回原文溯源")
     c.add_argument("--file", required=True, help="待核对输出")
@@ -1002,6 +1029,25 @@ def main():
                 "todo_sentences": len(facts["todo_sentences"]),
                 "decision_sentences": len(facts["decision_sentences"]),
                 "out_md": md_path, "out_json": json_path}
+        if getattr(a, "receipt", False):
+            # L2 证据层：产物与其来源文件做哈希绑定，外人可一条命令复核（见 receipt.py verify）
+            def _sha(p):
+                h = hashlib.sha256()
+                with open(p, "rb") as fh:
+                    for chunk in iter(lambda: fh.read(65536), b""):
+                        h.update(chunk)
+                return h.hexdigest()
+            rp = os.path.join(a.out, "%s.receipt.json" % stem)
+            rec = {"scheme": "synomos-receipt-v1",
+                   "artifacts": {
+                       "input": {"path": os.path.abspath(a.file), "sha256": _sha(a.file),
+                                 "bytes": os.path.getsize(a.file)},
+                       "output": {"path": os.path.abspath(md_path), "sha256": _sha(md_path),
+                                  "bytes": os.path.getsize(md_path)}},
+                   "assertions": {"must_all": [], "must_none": []},
+                   "tool": {"name": "summarize-pro", "version": "2.1.0-slim"}}
+            open(rp, "w", encoding="utf-8").write(json.dumps(rec, ensure_ascii=False, indent=2))
+            data["out_receipt"] = rp
         if as_json:
             log(json.dumps({"ok": True, "error_id": None, "data": data}, ensure_ascii=False))
         else:

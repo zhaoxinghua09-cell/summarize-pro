@@ -1,0 +1,43 @@
+{
+  "schema": "lgd.ai-index/1",
+  "name": "summarize-pro",
+  "displayName_zh": "会议纪要专家",
+  "version": "2.0.7",
+  "license": "MIT",
+  "author": "诺声(Logos)@SynomosAI",
+  "homepage": "https://github.com/zhaoxinghua09-cell/summarize-pro",
+  "registry": "https://github.com/zhaoxinghua09-cell/lgd-hit-list",
+  "family": [
+    "debug-pro",
+    "wechat-viral-topic",
+    "lgd-skill-review"
+  ],
+  "language": [
+    "zh-CN",
+    "en"
+  ],
+  "purpose_en": "Turns a transcript, recording or long document into minutes, a comparison table, a timeline, bullets or cards — choosing the format by reader intent, then compressing under a no-hallucination discipline.",
+  "purpose_zh": "把录音、会议转写或长文档变成纪要、对比表、时间线、要点或卡片——先按读者用途选格式，再在「不编造」纪律下压缩。每个数字与日期都能回溯到原文，模糊处只标注不替用户裁决。",
+  "use_when_en": "Use when the user asks for meeting minutes, a decision log, action items, a comparison table, a timeline, key points or a digest of a long transcript.",
+  "use_when_zh": "当用户要会议纪要、决议记录、待办清单、对比表、时间线、要点提炼，或要把长转写压成简报时使用。",
+  "entrypoints": [
+    "python scripts/summarize_pro.py extract --file transcript.md --format minutes --out ./out --json",
+    "python scripts/summarize_pro.py citecheck --file out/minutes.md --source transcript.md --json",
+    "python scripts/summarize_pro.py selfcheck --file out/minutes.md --format minutes --json",
+    "python tests/run_golden.py"
+  ],
+  "outputs_en": "A minutes/brief markdown file plus facts.json; citecheck reports how many facts are traceable and lists the untraceable ones.",
+  "outputs_zh": "一份纪要/简报 markdown 与 facts.json；citecheck 报告可溯源事实数与不可溯源清单。",
+  "verification": {
+    "golden_set": "24 cases",
+    "rerun_command": "python tests/run_golden.py",
+    "exit_code_semantics": "0 when all cases pass",
+    "differentiator": "decision strength (firm/provisional/proposal/conditional) and commitment strength (committed/named_unconfirmed/intent_only)"
+  },
+  "constraints": {
+    "offline": true,
+    "stdio_only": true,
+    "network": false,
+    "credentials": false
+  }
+}
