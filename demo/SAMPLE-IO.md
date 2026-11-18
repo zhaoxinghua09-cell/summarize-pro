@@ -16,6 +16,7 @@ python demo/run_demo.py
 ## 输入文件
 
 - `demo\RUN-LOG.txt`
+- `demo\SAMPLE-IO.md`
 - `demo\expected_minutes.md`
 - `demo\sample_transcript.md`
 
@@ -29,7 +30,7 @@ python demo/run_demo.py
   日期：2026-11-12、11 月 19 号、11 月 13 号、11 月 21 号、11 月 23 号、11 月 25 号、12 月 5 号、11 月
   说话人：陈涛、林岚、周敏
 结构自检（minutes 骨架）：PASS
-骨架已写入：C:\Users\ADMINI~1\AppData\Local\Temp\sumpro_demo_5s7j3k8w\sample_transcript.minutes.md
+骨架已写入：<local-path>
 溯源核对（人工理想纪要 → 原文）：PASS  （核对 token 44 个，不可溯源 0 个）
 溯源核对（故意改错两个数字）：FAIL  （检出 2 处不可溯源）
   ✗ 1.2% ← - 验收口径写死：**全量误拦率超过 2% 触发回滚**（不是 1.2% 就回滚）。
@@ -42,4 +43,4 @@ python demo/run_demo.py
 
 - 输出中的日期、数字、人名均能在输入文件里逐字找到；找不到即为缺陷。
 - 输出结构应与 SKILL.md 声明的骨架一致。
-- 生成时间：2026-11-19T01:10:07
+- 生成时间：2026-11-19T01:24:35
