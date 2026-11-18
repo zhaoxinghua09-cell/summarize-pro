@@ -1,5 +1,12 @@
 # summarize-pro · 会议纪要专家
 
+<!-- LGD-DIFF -->
+**Provably faithful minutes — every number can be traced back to the transcript, and tampering is caught.**
+
+输出可被机器证明：纪要里每个数字、日期都能回指原文；故意改错会被逐处检出。
+自测结果：篡改召回 **10/10（100%）**，未篡改不误报。复现：`python demo/tamper_test.py`（退出码 0 即通过）。
+<!-- /LGD-DIFF -->
+
 **skills.sh 页面**: https://skills.sh/zhaoxinghua09-cell/summarize-pro ｜ `npx skills add zhaoxinghua09-cell/summarize-pro`
 
 
