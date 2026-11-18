@@ -4,10 +4,11 @@ displayName: summarize-pro
 slug: summarize-pro
 author: 诺声(Logos)@SynomosAI
 copyright: SynomosAI
-version: 2.0.0
+version: 2.0.1
 license: MIT
-description: 总结 / 摘要 / 会议纪要 / 对比表 / 时间线 —— 增强版内容总结技能，按读者用途从 5 大输出格式族（纪要/对比/时间线/要点/卡片）中选格式，配合忠实性纪律；v2.0 附零依赖本地工具链（事实线索抽取 / 骨架生成 / 逐句溯源校验 / 10 条黄金集），可把「不编造」从声明变成可跑断言，用于回答「帮我出个会议纪要」「两个方案做成对比表」「梳理成时间线」这类问题
-description_en: A faithful summarizer that picks one of five output format families (minutes/comparison/timeline/bullets/cards) by reader intent, with strict no-hallucination discipline.
+description: "A faithful summarizer that picks one of five output format families (minutes / comparison / timeline / bullets / cards) by reader intent, then compresses under a strict no-hallucination discipline: nothing absent from the source, ambiguity flagged rather than resolved, every figure copied verbatim. Ships a zero-dependency, offline toolchain (extract / citecheck / selfcheck) plus a 10-case golden set, turning 'we do not fabricate' from a claim into a runnable assertion: citecheck traces each output sentence back to source tokens and lists anything untraceable, selfcheck asserts format-family completeness, extract builds the skeleton from date, figure, speaker, action, decision and conditional cues. Standard library only, no network, no replacement for human judgement. Triggers: summarize, summary, meeting minutes, minutes of meeting, comparison table, timeline, key points, digest."
+description_zh: 总结 / 摘要 / 会议纪要 / 对比表 / 时间线 —— 增强版内容总结技能，按读者用途从 5 大输出格式族（纪要/对比/时间线/要点/卡片）中选格式，配合忠实性纪律；v2.0 附零依赖本地工具链（事实线索抽取 / 骨架生成 / 逐句溯源校验 / 10 条黄金集），可把「不编造」从声明变成可跑断言，用于回答「帮我出个会议纪要」「两个方案做成对比表」「梳理成时间线」这类问题
+description_en: "A faithful summarizer that picks one of five output format families (minutes / comparison / timeline / bullets / cards) by reader intent, with strict no-hallucination discipline and a zero-dependency toolchain (extract / citecheck / selfcheck) plus a 10-case golden set."
 tags:
 - 总结
 - 摘要
@@ -51,6 +52,34 @@ trigger_keywords:
 - 结构化总结
 - 内容压缩
 ---
+
+# Enhanced Summarization: Pick the Format, Then Stay Faithful
+
+## Overview (English)
+
+Do not open with "here is the main content". First decide what the reader will *do* with it, choose one of five output format families, then compress under fidelity rules.
+
+| Reader's purpose | Format family |
+|---|---|
+| After a meeting, who does what | Minutes |
+| Choose among several options | Comparison |
+| Explain how something evolved | Timeline |
+| Scan and forward quickly | Bullets |
+| Archive as a knowledge card | Card |
+
+**Three hard rules.** Nothing absent from the source is written. Every figure is copied verbatim. Conditions are never compressed away.
+
+**What is machine-checkable (v2.0).**
+
+| Command | What it proves | Output |
+|---|---|---|
+| `python scripts/summarize_pro.py extract --file doc.md` | Which facts the source actually contains: dates, figures, speakers, action items, decisions, conditionals | Skeleton + fact list |
+| `python scripts/summarize_pro.py citecheck --draft out.md --source doc.md` | Every sentence in your draft is traceable to the source; untraceable ones are listed | Traceability report |
+| `python scripts/summarize_pro.py selfcheck --file out.md --format minutes` | The chosen format family carries all required sections | `PASS` / `FAIL` + missing elements |
+
+Run `python tests/run_golden.py` for the 10-case golden set (10/10 PASS locally) and `python demo/run_demo.py` for the end-to-end proof, which deliberately corrupts a figure and a date to show they are caught. Standard library only, no network.
+
+**中文正文如下。**
 
 # 增强版内容总结：先选格式，再守忠实
 
