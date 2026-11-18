@@ -1,5 +1,8 @@
 # summarize-pro · 会议纪要专家
 
+**skills.sh 页面**: https://skills.sh/zhaoxinghua09-cell/summarize-pro ｜ `npx skills add zhaoxinghua09-cell/summarize-pro`
+
+
 把录音、会议转写或长文档变成纪要、对比表、时间线、要点或卡片——先按读者用途选格式，再在「不编造」纪律下压缩。每个数字与日期都能回溯到原文，模糊处只标注不替用户裁决。
 
 Turns a transcript, recording or long document into minutes, a comparison table, a timeline, bullets or cards — choosing the format by reader intent, then compressing under a no-hallucination discipline.
