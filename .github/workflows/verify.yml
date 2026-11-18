@@ -1,0 +1,23 @@
+name: verify
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  golden:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Run golden set (offline, stdlib only)
+        run: python tests/run_golden.py
+      - name: Six-dimension audit (if engine vendored)
+        if: hashFiles('scripts/review.py') != ''
+        run: python scripts/review.py . --run --json
