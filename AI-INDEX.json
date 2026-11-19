@@ -1,5 +1,5 @@
 {
-  "schema": "lgd.ai-index/1",
+  "schema": "lgd.ai-index/2",
   "name": "summarize-pro",
   "displayName_zh": "会议纪要专家",
   "version": "2.0.7",
@@ -39,5 +39,44 @@
     "stdio_only": true,
     "network": false,
     "credentials": false
-  }
+  },
+  "intents": [
+    {
+      "id": "mins-from-recording",
+      "ask_en": "Turn a meeting recording or transcript into minutes",
+      "ask_zh": "把会议录音或转写做成纪要",
+      "routes_to": "entrypoints[0]"
+    },
+    {
+      "id": "action-items",
+      "ask_en": "Pull out action items and owners from a meeting transcript",
+      "ask_zh": "从会议转写里抽出待办与责任人",
+      "routes_to": "entrypoints[0]"
+    },
+    {
+      "id": "decisions-log",
+      "ask_en": "Write a decision log that separates firm decisions from proposals",
+      "ask_zh": "写决议记录，区分已定/暂定/提议",
+      "routes_to": "verification.differentiator"
+    },
+    {
+      "id": "cite-check",
+      "ask_en": "Check whether every number and date in my minutes traces back to the source",
+      "ask_zh": "检查纪要里每个数字和日期能否回溯原文",
+      "routes_to": "entrypoints[1]"
+    },
+    {
+      "id": "compress-long-doc",
+      "ask_en": "Compress a long document into a brief without inventing facts",
+      "ask_zh": "把长文档压成简报且不编造",
+      "routes_to": "entrypoints[0]"
+    },
+    {
+      "id": "timeline-table",
+      "ask_en": "Turn a messy discussion into a timeline or comparison table",
+      "ask_zh": "把混乱讨论整理成时间线或对比表",
+      "routes_to": "entrypoints[0]"
+    }
+  ],
+  "intents_note": "intents is a lookup surface, not a feature list: each ask is phrased the way a user or an agent would search it, and routes_to points at a real entrypoint in this package. 如果某条 ask 在本包做不到，那就是缺陷，应当删掉而不是留着。"
 }
