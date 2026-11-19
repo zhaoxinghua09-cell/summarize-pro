@@ -983,7 +983,9 @@ def main():
     n = sub.add_parser("normdates", help="相对日期归一（追加 ISO 锚点，不改原文）")
     n.add_argument("--file", required=True)
     n.add_argument("--out", default=None, help="归一后文本路径（默认覆盖 --file 旁边 .norm.md）")
-    n.add_argument("--ref", default=None, help="参考日期 YYYY-MM-DD，默认今天")
+    n.add_argument("--ref", dest="ref", default=None, help="参考日期 YYYY-MM-DD，默认今天")
+    n.add_argument("--asof", dest="ref", default=None,
+                   help="--ref 的别名（文档示例里用的是 --asof，两边必须都能跑）")
     n.add_argument("--json", action="store_true")
 
     x = sub.add_parser("neutral", help="敏感场景中性措辞检测")
