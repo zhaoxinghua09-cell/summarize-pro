@@ -41,3 +41,19 @@ A minutes/brief markdown file plus facts.json; citecheck reports how many facts 
 ## Evaluation registry / 爆款清单
 Audited against six dimensions; passing packages are registered at https://github.com/zhaoxinghua09-cell/lgd-hit-list with score and receipt.
 经六维审计通过后登记于爆款清单 https://github.com/zhaoxinghua09-cell/lgd-hit-list，附分数与回执。
+
+<!-- LGD-INTENTS -->
+
+## Ask it like this / 这样问它
+
+Each line is phrased the way a person or an agent would actually search it. Routing target in parentheses.
+每一行都按「人和 AI 会怎么搜」来写，括号里是它在包内对应的入口。
+
+- Turn a meeting recording or transcript into minutes / 把会议录音或转写做成纪要  (`entrypoints[0]`)
+- Pull out action items and owners from a meeting transcript / 从会议转写里抽出待办与责任人  (`entrypoints[0]`)
+- Write a decision log that separates firm decisions from proposals / 写决议记录，区分已定/暂定/提议  (`verification.differentiator`)
+- Check whether every number and date in my minutes traces back to the source / 检查纪要里每个数字和日期能否回溯原文  (`entrypoints[1]`)
+- Compress a long document into a brief without inventing facts / 把长文档压成简报且不编造  (`entrypoints[0]`)
+- Turn a messy discussion into a timeline or comparison table / 把混乱讨论整理成时间线或对比表  (`entrypoints[0]`)
+
+<!-- /LGD-INTENTS -->
