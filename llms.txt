@@ -40,7 +40,8 @@ A minutes/brief markdown file plus facts.json; citecheck reports how many facts 
 
 ## Evaluation registry / 爆款清单
 Audited against six dimensions; passing packages are registered at https://github.com/zhaoxinghua09-cell/lgd-hit-list with score and receipt.
-经六维审计通过后登记于爆款清单 https://github.com/zhaoxinghua09-cell/lgd-hit-list，附分数与回执。
+经六维审计通过后登记于爆款清单 https://github.com/zhaoxinghua09-cell/lgd-hit-list
+（附分数与回执）
 
 <!-- LGD-INTENTS -->
 
