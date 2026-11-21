@@ -8,7 +8,7 @@
 
 - 评分口径与公开基准：https://zhaoxinghua09-cell.github.io/lgd-skill-review/rubric.html ｜ 榜单：https://zhaoxinghua09-cell.github.io/lgd-skill-review/benchmark.html
 - 把自己的技能丢进来比，不用联系我们：[提交评测](https://github.com/zhaoxinghua09-cell/lgd-skill-review/issues/new?template=review-request.yml)
-- 机器入口：`https://zhaoxinghua09-cell.github.io/lgd-skill-review/llms.txt`（全量语料：`llms-full.txt`）
+- 机器入口：`https://zhaoxinghua09-cell.github.io/lgd-skill-review/llms.txt` （全量语料：`llms-full.txt`）
 <!-- /LGD-ECOSYSTEM -->
 
 <!-- LGD-DIFF -->
